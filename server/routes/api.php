@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,10 @@ Route::middleware(["auth:sanctum"])->group(function(){
     Route::post("/v1/sell-item",[ItemController::class,"sellItem"]);
     
 
-    
+    // * REQUEST ROUTES
+    Route::post("/v1/add-request",[RequestController::class,"addRequest"]);
+    Route::post("/v1/get-all-requests",[RequestController::class,"getAllRequests"]);
+    Route::post("/v1/get-request",[RequestController::class,"getRequest"]);
+    Route::post("/v1/get-user-request",[RequestController::class,"getUserRequests"]);
 
-    
 });
