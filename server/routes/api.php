@@ -30,6 +30,12 @@ Route::post("/v1/auth-login",[UserController::class,"authLogin"]);
 Route::get("/v1/get-items",[ItemController::class,"getItems"]);
 Route::post("/v1/get-item",[ItemController::class,"getItem"]);
 
+// * REQUEST ROUTES
+Route::post("/v1/get-all-requests",[RequestController::class,"getAllRequests"]);
+Route::post("/v1/get-request-info",[RequestController::class,"getRequest"]);
+
+
+// * USER ONLY AUTHENTICATED ROUTES
 Route::middleware(["auth:sanctum"])->group(function(){
     Route::post("/v1/logout",[UserController::class,"logout"]);
 
@@ -40,11 +46,11 @@ Route::middleware(["auth:sanctum"])->group(function(){
     // * SELL ROUTES
     Route::post("/v1/sell-item",[ItemController::class,"sellItem"]);
     
-
     // * REQUEST ROUTES
     Route::post("/v1/add-request",[RequestController::class,"addRequest"]);
-    Route::post("/v1/get-all-requests",[RequestController::class,"getAllRequests"]);
-    Route::post("/v1/get-request",[RequestController::class,"getRequest"]);
-    Route::post("/v1/get-user-request",[RequestController::class,"getUserRequests"]);
+    Route::post("/v1/get-user-requests",[RequestController::class,"getUserRequests"]);
 
+    
+    
 });
+// * AI ROUTES

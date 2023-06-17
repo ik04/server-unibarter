@@ -18,7 +18,6 @@ class Item extends Model
         "item_uuid",
         "seller_user_id"
         // ? should i add tags/ discuss with the team
-        // ? should i add 
 
 
     ];

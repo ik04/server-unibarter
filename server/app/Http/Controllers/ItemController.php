@@ -64,6 +64,7 @@ class ItemController extends Controller
    public function getItems(Request $request){
     return response()->json(["items"=>Item::all()],200);
    }
+   
    public function getItem(Request $request){
     $validation = Validator::make($request->all(),[
         "item_uuid" => "required|uuid"
