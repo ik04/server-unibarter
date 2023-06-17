@@ -78,4 +78,23 @@ class ItemController extends Controller
     $item = Item::where("item_uuid",$validated["item_uuid"])->first();
     return response()->json(["item"=>$item],200);
    }
+
+   public function searchItems(Request $request){
+    $validation = Validator::make($request->all(),[
+        "search" => "required|string"
+    ]);
+    if($validation->fails()){
+        return response()->json($validation->errors()->all(),400);
+    }
+
+    $validated = $validation->validated();
+
+    $results = Item::where("name","LIKE",'%'.$validated["search"].'%')->get();
+    return response()->json(["results"=>$results],200);
+
+   }
+
+
+
+
 }

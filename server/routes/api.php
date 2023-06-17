@@ -34,6 +34,9 @@ Route::post("/v1/get-item",[ItemController::class,"getItem"]);
 Route::post("/v1/get-all-requests",[RequestController::class,"getAllRequests"]);
 Route::post("/v1/get-request-info",[RequestController::class,"getRequest"]);
 
+// * SEARCH ROUTES
+Route::post("/v1/search-items",[ItemController::class,"searchItems"]);
+
 
 // * USER ONLY AUTHENTICATED ROUTES
 Route::middleware(["auth:sanctum"])->group(function(){
@@ -53,4 +56,7 @@ Route::middleware(["auth:sanctum"])->group(function(){
     
     
 });
-// * AI ROUTES
+
+
+
+// todo: cut down on number revealed details and optimize queries
