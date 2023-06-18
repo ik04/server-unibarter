@@ -31,7 +31,7 @@ Route::get("/v1/get-items",[ItemController::class,"getItems"]);
 Route::post("/v1/get-item",[ItemController::class,"getItem"]);
 
 // * REQUEST ROUTES
-Route::post("/v1/get-all-requests",[RequestController::class,"getAllRequests"]);
+Route::get("/v1/get-all-requests",[RequestController::class,"getAllRequests"]);
 Route::post("/v1/get-request-info",[RequestController::class,"getRequest"]);
 
 // * SEARCH ROUTES

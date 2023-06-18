@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Request as ModelsRequest;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +11,12 @@ use Ramsey\Uuid\Uuid;
 
 class RequestController extends Controller
 {
+    public function getUserId($userUuid)
+    {
+        $actualUserId = User::where("user_uuid", $userUuid)->first("id")->id;
+        return $actualUserId;
+    }
+
     public function addRequest(Request $request){
         $validation = Validator::make($request->all(),[
             "user_uuid" => "required|uuid",
@@ -40,7 +47,7 @@ class RequestController extends Controller
     }
 
     public function getAllRequests(Request $request){
-        return response()->json(["requests"=>ModelsRequest::all()],200);
+        return response()->json(["requests"=>ModelsRequest::join("users","requests.user_id","=","users.id")->get(["users.username","users.user_uuid","requests.title","requests.request_uuid","requests.created_at","requests.description"])],200);
 
     }
     public function getUserRequests(Request $request){

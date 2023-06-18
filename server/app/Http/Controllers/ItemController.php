@@ -93,10 +93,11 @@ class ItemController extends Controller
        $validated = $validation->validated();
    
        $searchTerm = '%'.$validated['search'].'%';
-   
-       $results = Item::where('name', 'LIKE', $searchTerm)
-           ->orWhere('description', 'LIKE', $searchTerm)
-           ->get();
+       
+       $results = Item::join("users", "items.seller_user_id", "=", "users.id")
+       ->where('items.name', 'LIKE', '%' . $searchTerm . '%')
+       ->orWhere('items.description', 'LIKE', '%' . $searchTerm . '%')
+       ->get(["items.name","items.price","items.image","items.item_uuid","items.description","users.username","users.user_uuid","items.created_at"]);
         // todo: run a join query to join the actual user name to the results
         // todo: convert timestamp to user readable time in frontend
    
