@@ -69,8 +69,8 @@ class UserController extends Controller
             return response()->json(["error"=>"Incorrect Password"],401);
         }
         if($user->is_admin){
-            $userToken = $user->createToken("myusertoken")->plainTextToken;;
-            return response()->json(["user"=>$user,"user_token"=>$userToken],200)->withCookie(cookie()->forever('at',$userToken));
+            $userToken = $user->createToken("myapptoken")->plainTextToken;
+            return response()->json(["user"=>$user,"token"=>$userToken],200)->withCookie(cookie()->forever('at',$userToken));
         }
         else{
             return response()->json(["you are not a moderator"],403);
@@ -92,13 +92,13 @@ class UserController extends Controller
         if(!Hash::check($validated["password"],$user->password)){
             return response()->json(["error"=>"Incorrect Password"],401);
         }
-            $userToken = $user->createToken("myusertoken")->plainTextToken;;
-            return response()->json(["user"=>$user,"user_token"=>$userToken],200)->withCookie(cookie()->forever('at',$userToken));
+            $userToken = $user->createToken("myapptoken")->plainTextToken;
+            return response()->json(["user"=>$user,"token"=>$userToken],200)->withCookie(cookie()->forever('at',$userToken));
     }
 
     public function logout(Request $request){
 
-        $request->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
         $response =  [
             'message' => 'logged out'
         ];
@@ -116,19 +116,19 @@ class UserController extends Controller
         }
         else{
             return response()->json([
-                'message' => "unauthenticated"
+                'message' => "invalid token"
             ],401);
         }
         if(is_null($user)){
             return response()->json([
-                'message' => "Unauthenticated"
+                'message' => "user is null"
             ]);
         }
         return response() -> json([
             'email' => $user->email,
             'username'=>$user->username,
             'name' => $user->name,
-            'uuid' => $user->user_uuid,
+            'user_uuid' => $user->user_uuid,
             'access_token' => $request -> cookie('at'),
         ],200);
     }
