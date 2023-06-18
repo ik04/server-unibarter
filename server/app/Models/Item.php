@@ -16,6 +16,7 @@ class Item extends Model
         "image",
         "price",
         "item_uuid",
+        "description",
         "seller_user_id"
         // ? should i add tags/ discuss with the team
 

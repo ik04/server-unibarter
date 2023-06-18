@@ -25,7 +25,8 @@ class ItemController extends Controller
         "name" =>"required|string",
         "image"=>"required|mimes:png,jpeg,jpg",
         "price" => "required|integer",
-        "seller_user_uuid" => "required|uuid"
+        "seller_user_uuid" => "required|uuid",
+        "description" => "required|string"
     ]);
 
     if($validation->fails()){
@@ -56,6 +57,7 @@ class ItemController extends Controller
         "image" => $url,
         "price" => $validated["price"],
         "item_uuid" => Uuid::uuid4(),
+        "description" => $validated["description"],
         "seller_user_id" => $actualUserId
     ]);
     return response()->json(["item"=>$item,"message"=>"item created!"],201);
@@ -79,20 +81,28 @@ class ItemController extends Controller
     return response()->json(["item"=>$item],200);
    }
 
-   public function searchItems(Request $request){
-    $validation = Validator::make($request->all(),[
-        "search" => "required|string"
-    ]);
-    if($validation->fails()){
-        return response()->json($validation->errors()->all(),400);
-    }
-
-    $validated = $validation->validated();
-
-    $results = Item::where("name","LIKE",'%'.$validated["search"].'%')->get();
-    return response()->json(["results"=>$results],200);
-
+   public function searchItems(Request $request)
+   {
+       $validation = Validator::make($request->all(), [
+           "search" => "required|string"
+       ]);
+       if ($validation->fails()) {
+           return response()->json($validation->errors()->all(), 400);
+       }
+   
+       $validated = $validation->validated();
+   
+       $searchTerm = '%'.$validated['search'].'%';
+   
+       $results = Item::where('name', 'LIKE', $searchTerm)
+           ->orWhere('description', 'LIKE', $searchTerm)
+           ->get();
+        // todo: run a join query to join the actual user name to the results
+        // todo: convert timestamp to user readable time in frontend
+   
+       return response()->json(["results" => $results], 200);
    }
+
 
 
 

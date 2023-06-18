@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal("price",5,2);
             $table->string("image");
             $table->uuid("item_uuid")->unique();
+            $table->string("description");
             $table->integer("seller_user_id"); // * this is a user id
             $table->timestamps();
         });
